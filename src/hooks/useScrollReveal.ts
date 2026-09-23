@@ -1,32 +1,33 @@
-import { useEffect } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useGSAP } from '@gsap/react'
+import { gsap, SplitText } from '../lib/motion'
 
 export default function useScrollReveal() {
-  useEffect(() => {
-    const targets = gsap.utils.toArray<HTMLElement>('[data-reveal]')
+  useGSAP(() => {
+    const mm = gsap.matchMedia()
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const splits: SplitText[] = []
 
-    const triggers = targets.map((el) =>
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 88%',
-          },
-        },
-      ),
-    )
+      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+        const trigger = { trigger: el, start: 'top 88%', once: true }
 
-    return () => {
-      triggers.forEach((t) => t.scrollTrigger?.kill())
-    }
-  }, [])
+        if (el.tagName === 'H2') {
+          const split = SplitText.create(el, { type: 'words', mask: 'words' })
+          splits.push(split)
+          gsap.from(split.words, {
+            yPercent: 110,
+            rotate: 3,
+            duration: 0.8,
+            ease: 'power4.out',
+            stagger: 0.05,
+            scrollTrigger: trigger,
+          })
+          return
+        }
+
+        gsap.from(el, { y: 20, autoAlpha: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: trigger })
+      })
+
+      return () => splits.forEach((s) => s.revert())
+    })
+  })
 }

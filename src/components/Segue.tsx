@@ -1,61 +1,91 @@
-import Container from './ui/Container'
-import iconTiktok from '../assets/icons/social-tiktok.svg'
-import iconLinkedin from '../assets/icons/social-linkedin.svg'
-import iconInstagram from '../assets/icons/social-instagram.svg'
+import SocialIcons from './ui/SocialIcons'
 import social1 from '../assets/photos/social-1.jpg'
 import social2 from '../assets/photos/social-2.jpg'
 import social3 from '../assets/photos/social-3.jpg'
 import social4 from '../assets/photos/social-4.jpg'
 
-const clips = [social1, social2, social3, social4]
-const track = [...clips, ...clips]
+// Cards do Figma: 384 × 683, gap 32, alternando 24px de deslocamento vertical.
+const clips = [
+  { src: social1, w: 384.19, top: 24 },
+  { src: social2, w: 384.19, top: 0 },
+  { src: social3, w: 384.19, top: 24 },
+  { src: social4, w: 315.89, top: 0 },
+]
+const GAP = 32
+const SET = clips.reduce((sum, c) => sum + c.w + GAP, 0)
+const COPIES = 4
+
+function Marquee({ scale, className }: { scale: number; className: string }) {
+  return (
+    <div
+      className={`u marquee flex w-max ${className}`}
+      style={{ ['--s' as string]: scale, ['--set' as string]: `${SET}em` }}
+    >
+      {Array.from({ length: COPIES }).flatMap((_, copy) =>
+        clips.map((clip, i) => (
+          <div
+            key={`${copy}-${i}`}
+            className="relative h-[707em] shrink-0"
+            style={{ width: `${clip.w}em`, marginRight: `${GAP}em` }}
+            aria-hidden={copy !== 1}
+          >
+            <img
+              src={clip.src}
+              alt=""
+              loading="lazy"
+              className="absolute left-0 h-[683em] w-full rounded-[16em] object-cover"
+              style={{ top: `${clip.top}em` }}
+            />
+          </div>
+        )),
+      )}
+    </div>
+  )
+}
+
+const fade = 'pointer-events-none absolute inset-x-0 bg-gradient-to-b from-white/0 from-[30.48%] to-white to-[100.85%] opacity-80'
 
 export default function Segue() {
   return (
-    <section className="overflow-hidden bg-white py-16 tablet:py-20 desktop:py-24">
-      <Container className="flex items-end justify-between gap-6">
-        <div className="flex flex-col gap-4">
-          <h2
-            data-reveal
-            className="text-3xl font-bold leading-[1.2] text-ink tablet:text-4xl"
-          >
-            Segue a gente
-          </h2>
-          <p className="text-lg text-neutral-700">@z1.app</p>
-        </div>
-        <div className="hidden items-center gap-6 tablet:flex">
-          <img src={iconTiktok} alt="TikTok" className="h-[2.1rem] w-auto" />
-          <img
-            src={iconLinkedin}
-            alt="LinkedIn"
-            className="h-[2.1rem] w-auto"
-          />
-          <img
-            src={iconInstagram}
-            alt="Instagram"
-            className="h-[2.1rem] w-auto"
-          />
-        </div>
-      </Container>
-
-      <div className="relative mt-8 desktop:mt-12">
-        <div className="animate-marquee flex w-max gap-6 [animation-play-state:running] hover:[animation-play-state:paused]">
-          {track.map((src, i) => (
-            <div
-              key={i}
-              className="h-[22rem] w-[15rem] shrink-0 overflow-hidden rounded-2xl desktop:h-[27rem] desktop:w-[18rem]"
-            >
-              <img
-                src={src}
-                alt=""
-                className="size-full object-cover"
-                loading="lazy"
-              />
+    <section className="overflow-hidden bg-white desktop:py-[7.5rem]">
+      {/* Desktop */}
+      <div className="hidden desktop:block">
+        <div className="relative mx-auto h-[6.0625rem] w-[90rem]">
+          <div className="absolute left-[7.0625rem] top-0 flex w-[75.967rem] items-end justify-between">
+            <div className="flex flex-col items-start gap-[1.5rem] whitespace-nowrap">
+              <h2 data-reveal className="text-[2.5rem] font-bold leading-[1.2] text-ink">
+                Segue a gente
+              </h2>
+              <p className="text-[1.125rem] font-medium leading-[1.4] text-neutral-700">@z1.app</p>
             </div>
-          ))}
+            <SocialIcons gaps={[0.4131, 0.5791]} />
+          </div>
         </div>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent desktop:w-32" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent desktop:w-32" />
+        <div className="relative mt-[2.125rem] h-[44.1875rem]">
+          <div className="relative mx-auto h-full w-[90rem]">
+            <Marquee scale={1} className="absolute left-[7rem] top-0" />
+          </div>
+          <div className={`${fade} top-[13.875rem] h-[30.3125rem]`} />
+        </div>
+      </div>
+
+      {/* Mobile / tablet */}
+      <div className="desktop:hidden">
+        <div className="flex flex-col items-center gap-[1.5rem] px-[1.25rem] pb-[1rem] pt-[4.5rem]">
+          <div className="flex flex-col items-center gap-[1rem] whitespace-nowrap">
+            <h2 data-reveal className="text-center text-[1.5rem] font-bold leading-[1.2] text-ink">
+              Segue a gente
+            </h2>
+            <p className="text-[0.875rem] font-medium leading-[1.4] text-neutral-700">@z1.app</p>
+          </div>
+          <SocialIcons gaps={[1.5, 1.5]} />
+        </div>
+        <div className="relative h-[32.375rem]">
+          <div className="relative mx-auto h-full w-[23.4375rem]">
+            <Marquee scale={246.127 / 384.19} className="absolute left-[1.25rem] top-[2.2175rem]" />
+          </div>
+          <div className={`${fade} top-[11.1063rem] h-[19.4195rem]`} />
+        </div>
       </div>
     </section>
   )

@@ -1,0 +1,34 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="535.482" height="706.952" viewBox="0 0 535.482 706.952" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Vector 18" filter="url(#filter0_iii_0_99)">
+<path d="M76.6054 630.346C211.821 499.579 534.762 568.545 442.58 76.619" stroke="url(#paint0_linear_0_99)" stroke-width="153.211" stroke-linecap="round"/>
+</g>
+<defs>
+<filter id="filter0_iii_0_99" x="-16.8071" y="-18.5691" width="626.566" height="725.521" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="74.2766" dy="-18.5691"/>
+<feGaussianBlur stdDeviation="55.7074"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.317647 0 0 0 0 0.0235294 0 0 0 1 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_0_99"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="37.1383" dy="-9.28457"/>
+<feGaussianBlur stdDeviation="27.8537"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.423529 0 0 0 0 0.886275 0 0 0 1 0"/>
+<feBlend mode="normal" in2="effect1_innerShadow_0_99" result="effect2_innerShadow_0_99"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-22.8096" dy="-3.00126"/>
+<feGaussianBlur stdDeviation="8.40354"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.423529 0 0 0 0 0.886275 0 0 0 1 0"/>
+<feBlend mode="normal" in2="effect2_innerShadow_0_99" result="effect3_innerShadow_0_99"/>
+</filter>
+<linearGradient id="paint0_linear_0_99" x1="391.754" y1="13.4163" x2="299.064" y2="771.081" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF6DE2"/>
+<stop offset="0.541667" stop-color="#FF4E00"/>
+<stop offset="1" stop-color="#FF6DE2"/>
+</linearGradient>
+</defs>
+</svg>

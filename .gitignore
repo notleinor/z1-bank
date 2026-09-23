@@ -17,3 +17,6 @@ npm-debug.log*
 
 # Env
 *.local
+
+# Claude Code runtime
+.claude/scheduled_tasks.lock

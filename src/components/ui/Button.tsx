@@ -1,54 +1,55 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
-type ButtonVariant = 'dark' | 'light' | 'outline'
-type ButtonIcon = 'down' | 'up-right'
+type Variant = 'primary' | 'secondary'
+type Icon = 'down' | 'right' | 'none'
 
 type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  variant?: ButtonVariant
-  icon?: ButtonIcon
+  variant?: Variant
+  icon?: Icon
+  tight?: boolean
   children: ReactNode
 }
 
-const variantClasses: Record<ButtonVariant, string> = {
-  dark: 'bg-ink text-white border border-ink hover:bg-white hover:text-ink',
-  light: 'bg-white text-ink border border-white hover:bg-ink hover:text-white',
-  outline:
-    'bg-white text-ink border border-neutral-100 hover:bg-ink hover:text-white hover:border-ink',
-}
-
-const iconRotation: Record<ButtonIcon, string> = {
-  down: 'rotate-[135deg]',
-  'up-right': 'rotate-45',
+// Bordas como inset shadow: no Figma o stroke é interno e não muda o tamanho do botão.
+const variants: Record<Variant, string> = {
+  primary:
+    'bg-ink text-white text-[1.125rem] hover:bg-white hover:text-ink hover:shadow-[inset_0_0_0_1px_var(--color-ink)]',
+  secondary:
+    'bg-white text-ink text-[1rem] shadow-[inset_0_0_0_1px_var(--color-neutral-100)] hover:bg-ink hover:text-white hover:shadow-[inset_0_0_0_1px_var(--color-ink)]',
 }
 
 export default function Button({
-  variant = 'dark',
-  icon = 'up-right',
+  variant = 'primary',
+  icon = 'right',
+  tight = false,
   children,
   className = '',
   ...props
 }: ButtonProps) {
   return (
     <a
-      className={`group inline-flex items-baseline gap-4 rounded px-6 py-4 text-lg font-medium leading-[1.4] transition-colors duration-200 ${variantClasses[variant]} ${className}`}
+      className={`inline-flex shrink-0 items-baseline whitespace-nowrap rounded-[0.25rem] px-[1.5rem] py-[1rem] font-medium leading-[1.4] transition-[background-color,color,box-shadow] duration-300 ease-out ${tight ? 'gap-[0.8125rem]' : 'gap-[1rem]'} ${variants[variant]} ${className}`}
       {...props}
     >
-      <span>{children}</span>
-      <svg
-        width="10"
-        height="10"
-        viewBox="0 0 10 10"
-        fill="none"
-        className={`size-[0.625rem] shrink-0 ${iconRotation[icon]} transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5`}
-      >
-        <path
-          d="M1 9L9 1M9 1H2.5M9 1V7.5"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      {children}
+      {icon !== 'none' && (
+        <span className="flex size-[0.8839rem] items-center justify-center self-center">
+          <svg
+            viewBox="0 0 11.5 11.5"
+            fill="none"
+            className={`size-[0.71875rem] ${icon === 'down' ? 'rotate-[135deg]' : 'rotate-45'}`}
+            aria-hidden
+          >
+            <path
+              d="M10.6997 0.800252L0.75 10.75M10.75 7.78518L10.6997 0.800252L3.71482 0.75"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      )}
     </a>
   )
 }
