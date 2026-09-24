@@ -1,7 +1,5 @@
-import Container from './ui/Container'
-import Card from './ui/Card'
+import DetalhesAnim from './DetalhesAnim'
 import checkIcon from '../assets/icons/check.svg'
-import phoneScreen from '../assets/photos/phone-screen.png'
 
 const checks = [
   'É totalmente grátis',
@@ -13,44 +11,66 @@ const checks = [
   'Suporte 24h, todos os dias da semana',
 ]
 
+function Checks({ mobile }: { mobile?: boolean }) {
+  return (
+    <ul
+      className={
+        mobile
+          ? 'flex w-[19.7917rem] flex-col gap-[1rem] tablet:grid tablet:w-[36rem] tablet:grid-cols-2 tablet:gap-x-[2rem]'
+          : 'flex flex-col gap-[1rem]'
+      }
+    >
+      {checks.map((item, i) => (
+        <li
+          key={item}
+          data-reveal
+          className={`flex items-center pb-[1rem] pt-[0.5rem] ${
+            mobile ? 'gap-[0.5rem]' : 'gap-[1rem] whitespace-nowrap'
+          } ${
+            mobile && i === checks.length - 1
+              ? 'tablet:border-b-[0.05rem] tablet:border-neutral-100'
+              : 'border-b-[0.05rem] border-neutral-100'
+          }`}
+        >
+          <img
+            src={checkIcon}
+            alt=""
+            className={mobile ? 'h-[1rem] w-[1.6667rem] shrink-0' : 'h-[1.5rem] w-[2.5rem] shrink-0'}
+          />
+          <span className={`leading-[1.4] text-neutral-700 ${mobile ? 'text-[0.875rem]' : 'text-[1rem]'}`}>
+            {item}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 export default function Detalhes() {
   return (
-    <section className="overflow-hidden bg-white py-16 tablet:py-20 desktop:py-24">
-      <Container className="flex flex-col-reverse items-center gap-14 tablet:flex-row tablet:items-center tablet:gap-8 desktop:gap-16">
-        <div className="group relative w-full max-w-[20rem] shrink-0 tablet:w-1/2 tablet:max-w-[24rem]">
-          <div className="relative mx-auto w-[65%] overflow-hidden rounded-[1.75rem] bg-ink p-1.5 shadow-2xl transition-transform duration-500 tablet:group-hover:-translate-x-6">
-            <img
-              src={phoneScreen}
-              alt="Aplicativo Z1"
-              className="w-full rounded-[1.4rem]"
-            />
-          </div>
-          <Card
-            className="absolute right-0 top-1/2 w-[55%] -translate-y-1/2 translate-x-4 rotate-[18deg] opacity-90 transition-all duration-500 tablet:opacity-0 tablet:rotate-[70deg] tablet:translate-x-0 tablet:group-hover:translate-x-8 tablet:group-hover:rotate-[18deg] tablet:group-hover:opacity-100"
-          />
-        </div>
-
-        <div className="flex flex-col items-start gap-8 tablet:w-1/2">
-          <h2
-            data-reveal
-            className="text-3xl font-bold leading-[1.2] text-ink tablet:text-4xl"
-          >
+    <section className="overflow-hidden bg-white">
+      {/* Desktop — frame 1440 × 509 + 120 de respiro */}
+      <div className="relative mx-auto hidden h-[31.8125rem] w-[90rem] desktop:block">
+        <DetalhesAnim className="absolute left-[7rem] top-0" />
+        <div className="absolute left-[52.5rem] top-0 flex flex-col items-start gap-[2rem]">
+          <h2 data-reveal className="text-[2.5rem] font-bold leading-[1.2] text-ink">
             Sua conta na Z1
           </h2>
-          <ul className="flex w-full flex-col">
-            {checks.map((item) => (
-              <li
-                key={item}
-                data-reveal
-                className="flex items-center gap-4 border-b border-neutral-100 py-3"
-              >
-                <img src={checkIcon} alt="" className="h-6 w-10 shrink-0" />
-                <span className="text-base text-neutral-700">{item}</span>
-              </li>
-            ))}
-          </ul>
+          <Checks />
         </div>
-      </Container>
+      </div>
+      <div className="hidden h-[7.5rem] desktop:block" />
+
+      {/* Mobile / tablet */}
+      <div className="flex flex-col items-center desktop:hidden">
+        <div className="flex flex-col items-center gap-[2rem] px-[1.25rem] py-[2.5rem] tablet:pb-[3rem]">
+          <h2 data-reveal className="text-[1.5rem] font-bold leading-[1.2] text-ink">
+            Sua conta na Z1
+          </h2>
+          <Checks mobile />
+        </div>
+        <DetalhesAnim className="[--s:0.56684] tablet:[--s:0.8]" />
+      </div>
     </section>
   )
 }

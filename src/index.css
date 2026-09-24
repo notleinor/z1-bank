@@ -1,31 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Sarabun:wght@400;500;700;800&display=swap');
 @import 'tailwindcss';
 
 @theme {
-  /* Breakpoints — mobile <800 / tablet 800-1023 / desktop 1024-1439 / desktop-large 1440+ */
-  --breakpoint-tablet: 50rem; /* 800px */
-  --breakpoint-desktop: 64rem; /* 1024px */
-  --breakpoint-wide: 90rem; /* 1440px */
+  /* mobile <800 · tablet 800–1023 · desktop 1024–1439 · desktop large 1440+ */
+  --breakpoint-tablet: 800px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
 
-  --font-sans: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-sans: 'Sarabun', system-ui, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, monospace;
 
   --color-primary: #fffb5c;
   --color-ink: #060613;
   --color-neutral-900: #383842;
   --color-neutral-700: #5d5d68;
   --color-neutral-600: #71717c;
+  --color-neutral-400: #9a9aa6;
+  --color-neutral-300: #afb0bb;
   --color-neutral-200: #c5c5d1;
   --color-neutral-100: #dcdce8;
   --color-neutral-50: #f2f3ff;
   --color-white: #ffffff;
 }
 
+/*
+  Todo o layout é escrito em rem a partir das medidas do Figma (1rem = 16px no frame).
+  O tamanho da raiz escala o frame para caber em cada faixa de largura:
+  mobile: frame de 375 ocupa a tela · tablet: frame mobile ampliado ·
+  desktop: frame de 1440 reduzido proporcionalmente · 1440+: tamanho real.
+*/
 html {
+  font-size: clamp(13.6px, calc(100vw / 23.4375), 18px);
   scroll-behavior: smooth;
+}
+
+@media (min-width: 800px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: clamp(12px, calc(100vw / 90), 16px);
+  }
 }
 
 body {
   margin: 0;
+  overflow-x: clip;
   font-family: var(--font-sans);
   color: var(--color-ink);
   background: var(--color-white);
@@ -37,54 +60,70 @@ body {
   box-sizing: border-box;
 }
 
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
+/* Imagens e controles não são selecionáveis nem arrastáveis */
+img,
+svg,
+button {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* A máscara do SplitText corta descendentes (g, ç, ?) — estende a área visível sem mexer no layout */
+.split-mask {
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+
+/* Unidade de desenho: dentro de .u, 1em = 1px do Figma × --s */
+.u {
+  font-size: calc(0.0625rem * var(--s, 1));
+}
+
+@keyframes spin {
   to {
-    transform: rotate(360deg);
+    rotate: 360deg;
   }
 }
 
-@keyframes spin-slow-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+.spin-slow {
+  animation: spin 18s linear infinite;
 }
 
-.animate-spin-slow {
-  animation: spin-slow 14s linear infinite;
-}
-
-.animate-spin-slower {
-  animation: spin-slow-reverse 22s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-spin-slow,
-  .animate-spin-slower {
-    animation: none;
-  }
+.spin-slow-reverse {
+  animation: spin 24s linear infinite reverse;
 }
 
 @keyframes marquee {
   from {
-    transform: translateX(0);
+    translate: calc(-1 * var(--set)) 0;
   }
   to {
-    transform: translateX(-50%);
+    translate: calc(-2 * var(--set)) 0;
   }
 }
 
-.animate-marquee {
-  animation: marquee 28s linear infinite;
+.marquee {
+  animation: marquee 45s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
+  .spin-slow,
+  .spin-slow-reverse,
+  .marquee {
     animation: none;
   }
 }
