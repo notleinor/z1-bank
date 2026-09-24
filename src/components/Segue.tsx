@@ -1,4 +1,8 @@
+import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
 import SocialIcons from './ui/SocialIcons'
+import { gsap } from '../lib/motion'
+import { horizontalLoop } from '../lib/horizontalLoop'
 import social1 from '../assets/photos/social-1.jpg'
 import social2 from '../assets/photos/social-2.jpg'
 import social3 from '../assets/photos/social-3.jpg'
@@ -12,35 +16,50 @@ const clips = [
   { src: social4, w: 315.89, top: 0 },
 ]
 const GAP = 32
-const SET = clips.reduce((sum, c) => sum + c.w + GAP, 0)
-const COPIES = 4
+// Repete a lista para preencher telas largas mantendo o laço sem emenda.
+const track = [...clips, ...clips]
 
-// Faixa em loop: 1em = 1px do Figma × --s. `left` alinha o primeiro card à margem do frame.
-function Marquee({ className, left }: { className: string; left: string }) {
+// Faixa em loop contínuo e arrastável: 1em = 1px do Figma × --s.
+// `media` garante que só o Marquee visível construa o loop e que ele se
+// reconstrua ao cruzar o breakpoint (medidas mudam com o layout/escala).
+function Marquee({ className, media }: { className: string; media: string }) {
+  const wrap = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia(wrap.current!)
+      mm.add(media, () => {
+        const items = gsap.utils.toArray<HTMLElement>('[data-clip]', wrap.current!)
+        if (!items.length || items[0].offsetWidth === 0) return
+        const loop = horizontalLoop(items, { speed: 0.6, paddingRight: GAP, draggable: true })
+        return () => loop.kill()
+      })
+    },
+    { scope: wrap },
+  )
+
   return (
     <div className={`u relative h-[707em] w-full ${className}`}>
-      <div
-        className="marquee absolute top-0 flex w-max"
-        style={{ left, ['--set' as string]: `${SET}em` }}
-      >
-        {Array.from({ length: COPIES }).flatMap((_, copy) =>
-          clips.map((clip, i) => (
+      <div ref={wrap} className="relative h-[707em] w-full overflow-hidden">
+        <div className="flex h-[707em] w-max">
+          {track.map((clip, i) => (
             <div
-              key={`${copy}-${i}`}
+              key={i}
+              data-clip
               className="relative h-[707em] shrink-0"
               style={{ width: `${clip.w}em`, marginRight: `${GAP}em` }}
-              aria-hidden={copy !== 1}
             >
               <img
                 src={clip.src}
                 alt=""
                 loading="lazy"
-                className="absolute left-0 h-[683em] w-full rounded-[16em] object-cover"
+                draggable={false}
+                className="pointer-events-none absolute left-0 h-[683em] w-full rounded-[16em] object-cover"
                 style={{ top: `${clip.top}em` }}
               />
             </div>
-          )),
-        )}
+          ))}
+        </div>
       </div>
       <div className="pointer-events-none absolute inset-x-0 top-[222em] h-[485em] bg-gradient-to-b from-white/0 from-[30.48%] to-white to-[100.85%] opacity-80" />
     </div>
@@ -60,10 +79,10 @@ export default function Segue() {
               </h2>
               <p className="text-[1.125rem] font-medium leading-[1.4] text-neutral-700">@z1.app</p>
             </div>
-            <SocialIcons gaps={[0.4131, 0.5791]} />
+            <SocialIcons />
           </div>
         </div>
-        <Marquee className="mt-[2.125rem]" left="calc(50% - 38rem)" />
+        <Marquee className="mt-[2.125rem]" media="(min-width: 1024px)" />
       </div>
 
       {/* Mobile / tablet */}
@@ -75,11 +94,11 @@ export default function Segue() {
             </h2>
             <p className="text-[0.875rem] font-medium leading-[1.4] text-neutral-700">@z1.app</p>
           </div>
-          <SocialIcons gaps={[1.5, 1.5]} />
+          <SocialIcons />
         </div>
         <Marquee
           className="mb-[1.85rem] mt-[2.2175rem] [--s:0.64064] tablet:[--s:0.8]"
-          left="max(1.25rem, calc(50% - 10.46875rem))"
+          media="(max-width: 1023px)"
         />
       </div>
     </section>

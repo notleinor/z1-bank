@@ -14,23 +14,28 @@ export default function CreditoVisual({ className = '' }: { className?: string }
     () => {
       // Encaixe final do cartão medido contra a composição original do Figma.
       const cardFit = { xPercent: 17.11, yPercent: 15.71, rotate: 8, scale: 0.9 }
-      gsap.set('[data-hand="cartao"]', cardFit)
 
       const mm = gsap.matchMedia(root.current!)
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap
-          .timeline({
-            defaults: { ease: 'none' },
-            scrollTrigger: { trigger: root.current, start: 'top 55%', end: 'center 40%', scrub: 0.8 },
-          })
-          .from('[data-hand="maquininha"]', { yPercent: -32, rotate: -8, xPercent: -6 }, 0)
-          .fromTo(
-            '[data-hand="cartao"]',
-            { xPercent: 24, yPercent: 48, rotate: 16, scale: 0.9 },
-            cardFit,
-            0,
-          )
-          .from('[data-price]', { scale: 0.4, autoAlpha: 0, ease: 'back.out(3)', duration: 0.35 }, 0.65)
+        // scrub reversível: descendo as mãos se encontram, subindo elas se afastam.
+        const tl = gsap.timeline({
+          defaults: { ease: 'power1.inOut' },
+          scrollTrigger: { trigger: root.current, start: 'top 75%', end: 'center 55%', scrub: 0.8 },
+        })
+        // maquininha desce de cima
+        tl.from('[data-hand="maquininha"]', { yPercent: -55, rotate: -10, xPercent: -8, duration: 1 }, 0)
+        // cartão sobe de baixo até encaixar
+        tl.fromTo(
+          '[data-hand="cartao"]',
+          { xPercent: 30, yPercent: 62, rotate: 18, scale: 0.9 },
+          { ...cardFit, duration: 1, immediateRender: true },
+          0,
+        )
+        tl.from('[data-price]', { scale: 0.4, autoAlpha: 0, ease: 'back.out(3)', duration: 0.45 }, 0.6)
+      })
+
+      mm.add('(prefers-reduced-motion: reduce)', () => {
+        gsap.set('[data-hand="cartao"]', cardFit)
       })
     },
     { scope: root },
