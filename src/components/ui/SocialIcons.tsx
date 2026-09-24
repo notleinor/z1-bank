@@ -20,7 +20,7 @@ export default function SocialIcons({ gaps }: { gaps: [number, number] }) {
           key={icon.label}
           href="#"
           aria-label={icon.label}
-          className="group relative block shrink-0"
+          className="group relative block shrink-0 select-none"
           style={{ width: r(icon.w), height: r(icon.h), marginLeft: i === 0 ? 0 : r(gaps[i - 1]) }}
         >
           <img src={icon.src} alt="" className="absolute inset-0 size-full" />

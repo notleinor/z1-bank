@@ -11,12 +11,15 @@ export default function Hero() {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
+      const mm = gsap.matchMedia(root.current!)
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const titles = gsap.utils.toArray<HTMLElement>('[data-hero-title]')
-        const splits = titles.map((t) => SplitText.create(t, { type: 'words', mask: 'words' }))
+        const splits = titles.map((t) => SplitText.create(t, { type: 'words', mask: 'words', wordsClass: 'split' }))
 
-        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
+        const tl = gsap.timeline({
+          defaults: { ease: 'power4.out' },
+          onComplete: () => splits.forEach((s) => s.revert()),
+        })
         splits.forEach((s) =>
           tl.from(s.words, { yPercent: 110, rotate: 4, duration: 0.9, stagger: 0.06 }, 0.1),
         )

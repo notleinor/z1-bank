@@ -1,46 +1,43 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
-import { gsap, bouncy, BOUNCY_DURATION } from '../lib/motion'
+import { gsap } from '../lib/motion'
 import phoneScreen from '../assets/photos/phone-screen.png'
 import phoneBg from '../assets/icons/phone-body.svg'
 import z1Card from '../assets/photos/z1-card.png'
 
-// Medidas do componente "Animation=Detalhes" no Figma (591 × 508); `scale` reduz para o mobile.
-export default function DetalhesAnim({ scale = 1, className = '' }: { scale?: number; className?: string }) {
+// Medidas do componente "Animation=Detalhes" no Figma (591 × 508), em em dentro de `.u`.
+// O estado final (cartão aparecendo) é o "Detalhes+Hover" do protótipo, conduzido pelo scroll.
+export default function DetalhesAnim({ className = '' }: { className?: string }) {
   const root = useRef<HTMLDivElement>(null)
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
+      const mm = gsap.matchMedia(root.current!)
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const toB = { duration: BOUNCY_DURATION, ease: bouncy }
-        const tl = gsap.timeline({ repeat: -1, paused: true })
-        tl.to('[data-card]', { x: '114.55em', ...toB }, 0.8)
-          .to('[data-card-img]', { rotate: -83.02, ...toB }, '<')
-          .to('[data-card-shine]', { opacity: 0.5, ...toB }, '<')
-          .to('[data-phone]', { left: '39em', ...toB }, '<')
+        gsap
+          .timeline({
+            defaults: { ease: 'back.out(1.4)', duration: 1 },
+            scrollTrigger: { trigger: root.current, start: 'top 60%', end: 'center 40%', scrub: 0.8 },
+          })
+          .to('[data-card]', { x: '114.55em' }, 0)
+          .to('[data-card-img]', { rotate: -83.02 }, 0)
+          .to('[data-card-shine]', { opacity: 0.5, ease: 'none' }, 0)
+          .to('[data-phone]', { left: '39em' }, 0)
           .to(
             '[data-highlight]',
-            { left: '7em', top: '263em', width: '384em', height: '64em', borderRadius: '12.19em', opacity: 1, ...toB },
-            '<',
+            { left: '7em', top: '263em', width: '384em', height: '64em', borderRadius: '12.19em' },
+            0.15,
           )
-          .to('[data-card]', { x: 0, ...toB }, `>+0.8`)
-          .to('[data-card-img]', { rotate: -90, ...toB }, '<')
-          .to('[data-card-shine]', { opacity: 0, ...toB }, '<')
-          .to('[data-phone]', { left: '135em', ...toB }, '<')
-          .to(
-            '[data-highlight]',
-            { left: '169em', top: '272em', width: '250em', height: '42em', borderRadius: '0em', opacity: 0, ...toB },
-            '<',
-          )
+          .to('[data-highlight]', { opacity: 1, duration: 0.3, ease: 'none' }, 0.15)
+      })
 
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: root.current,
-            start: 'top 85%',
-            end: 'bottom top',
-            onToggle: (self) => (self.isActive ? tl.play() : tl.pause()),
-          },
+      // Sem animação: mostra direto o estado final.
+      mm.add('(prefers-reduced-motion: reduce)', () => {
+        gsap.set('[data-card]', { x: '114.55em' })
+        gsap.set('[data-card-img]', { rotate: -83.02 })
+        gsap.set('[data-phone]', { left: '39em' })
+        gsap.set('[data-highlight]', {
+          left: '7em', top: '263em', width: '384em', height: '64em', borderRadius: '12.19em', opacity: 1,
         })
       })
     },
@@ -48,11 +45,7 @@ export default function DetalhesAnim({ scale = 1, className = '' }: { scale?: nu
   )
 
   return (
-    <div
-      ref={root}
-      className={`u relative h-[508em] w-[591em] shrink-0 overflow-hidden ${className}`}
-      style={{ ['--s' as string]: scale }}
-    >
+    <div ref={root} className={`u relative h-[508em] w-[591em] shrink-0 overflow-hidden ${className}`}>
       <img src={phoneBg} alt="" className="absolute left-0 top-[85em] h-[424em] w-[591em]" />
 
       <div

@@ -18,13 +18,13 @@ const items: { icon: ReactNode; title: string; text: string; width: string }[] =
     icon: inset(iconMastercard),
     title: 'Mastercard ®',
     text: 'Toda a confiança e segurança de um cartão Mastercard',
-    width: 'w-[14.5625rem]',
+    width: 'w-[14.5625rem] tablet:w-[15rem] desktop:w-[14.5625rem]',
   },
   {
     icon: <img src={iconClock} alt="" className="absolute inset-0 size-full" />,
     title: 'Bloqueio temporário',
     text: 'Bloqueie e desbloqueie seu cartão Z1 pelo app sempre que precisar',
-    width: 'w-[16.5rem]',
+    width: 'w-[16.5rem] tablet:w-[15rem] desktop:w-[16.5rem]',
   },
   {
     icon: (
@@ -35,13 +35,13 @@ const items: { icon: ReactNode; title: string; text: string; width: string }[] =
     ),
     title: 'Privacidade',
     text: 'Jamais compartilharemos seus dados sem a sua autorização, ok?',
-    width: 'w-[15.75rem]',
+    width: 'w-[15.75rem] tablet:w-[15rem] desktop:w-[15.75rem]',
   },
   {
     icon: inset(iconHandshake),
     title: 'Parceiros bancários',
     text: 'Seus dados serão compartilhados apenas com a SWAP e Starkbank, nossos parceiros bancários que fazem todo armazenamento do seu dinheiro',
-    width: 'w-[18.8125rem]',
+    width: 'w-[18.8125rem] tablet:w-[16rem] desktop:w-[18.8125rem]',
   },
 ]
 
@@ -54,7 +54,7 @@ export default function Seguranca() {
       <h2 data-reveal className="whitespace-nowrap text-[1.5rem] font-bold leading-[1.2] text-ink desktop:text-[2.5rem]">
         E a segurança, como fica?
       </h2>
-      <div className="flex flex-col items-center gap-[2.5rem] desktop:w-[75.875rem] desktop:flex-row desktop:items-start desktop:justify-between desktop:gap-0">
+      <div className="flex flex-col items-center gap-[2.5rem] tablet:grid tablet:w-[36rem] tablet:grid-cols-2 tablet:items-start tablet:justify-items-center tablet:gap-x-[2rem] desktop:flex desktop:w-[75.875rem] desktop:flex-row desktop:justify-between desktop:gap-0">
         {items.map((item) => (
           <div key={item.title} data-reveal className="flex flex-col items-center gap-[0.75rem] desktop:gap-[1.5rem]">
             <div className="flex rounded-[0.5rem] p-[1rem] shadow-[inset_0_0_0_1px_var(--color-neutral-100)]">

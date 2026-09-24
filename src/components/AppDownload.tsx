@@ -13,7 +13,7 @@ export default function AppDownload() {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
+      const mm = gsap.matchMedia(root.current!)
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.fromTo(
           '[data-tube]',

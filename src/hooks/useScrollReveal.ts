@@ -11,7 +11,7 @@ export default function useScrollReveal() {
         const trigger = { trigger: el, start: 'top 88%', once: true }
 
         if (el.tagName === 'H2') {
-          const split = SplitText.create(el, { type: 'words', mask: 'words' })
+          const split = SplitText.create(el, { type: 'words', mask: 'words', wordsClass: 'split' })
           splits.push(split)
           gsap.from(split.words, {
             yPercent: 110,
@@ -20,6 +20,7 @@ export default function useScrollReveal() {
             ease: 'power4.out',
             stagger: 0.05,
             scrollTrigger: trigger,
+            onComplete: () => split.revert(),
           })
           return
         }

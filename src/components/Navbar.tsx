@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Button from './ui/Button'
 import z1Logo from '../assets/logos/z1-logo.svg'
-import burger from '../assets/icons/menu-burger.svg'
 
 const links = [
   { label: 'Como funciona', href: '#passos' },
@@ -49,35 +48,63 @@ export default function Navbar() {
           onClick={() => setOpen((v) => !v)}
           className="absolute right-[1.1875rem] top-[1.25rem] size-[2.5rem]"
         >
-          {open ? (
-            <svg viewBox="0 0 40 40" fill="none" className="size-full" aria-hidden>
-              <path d="M13 13L27 27M27 13L13 27" stroke="#060613" strokeWidth="2.4" strokeLinecap="round" />
-            </svg>
-          ) : (
-            <img src={burger} alt="" className="size-full" />
-          )}
+          {/* Linhas do ícone menu-burger do Figma: x 11.66–35, y 12 / 19.5 / 27, traço 2.4 */}
+          {[0.75, 1.21875, 1.6875].map((top, i) => (
+            <span
+              key={top}
+              className={`absolute left-[0.7289rem] h-[0.15rem] w-[1.4589rem] rounded-full bg-ink transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+                open
+                  ? i === 0
+                    ? 'translate-y-[0.46875rem] rotate-45'
+                    : i === 1
+                      ? 'scale-x-0 opacity-0'
+                      : '-translate-y-[0.46875rem] -rotate-45'
+                  : ''
+              }`}
+              style={{ top: `calc(${top}rem - 0.075rem)` }}
+            />
+          ))}
         </button>
       </div>
 
-      {open && (
-        <div className="border-t border-neutral-100 bg-white desktop:hidden">
-          <nav className="mx-auto flex w-[23.4375rem] flex-col items-center gap-[0.5rem] px-[1.25rem] pb-[2rem] pt-[1.5rem]">
-            {links.map((link) => (
+      <div
+        className={`grid bg-white transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] desktop:hidden ${
+          open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
+        inert={!open}
+      >
+        <div className="overflow-hidden">
+          <nav
+            className={`mx-auto flex flex-col items-center gap-[0.5rem] border-t border-neutral-100 px-[1.25rem] pb-[2rem] pt-[1.5rem] transition-opacity duration-300 ${
+              open ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            {links.map((link, i) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="p-[0.5rem] text-[1rem] font-medium text-ink transition-colors duration-300 hover:text-neutral-400"
+                className={`p-[0.5rem] text-[1rem] font-medium text-ink transition-[color,transform,opacity] duration-500 ease-out hover:text-neutral-400 ${
+                  open ? 'translate-y-0 opacity-100' : '-translate-y-[0.5rem] opacity-0'
+                }`}
+                style={{ transitionDelay: open ? `${100 + i * 50}ms` : '0ms' }}
               >
                 {link.label}
               </a>
             ))}
-            <Button variant="secondary" href="#mae" className="mt-[1rem]" onClick={() => setOpen(false)}>
-              Mãe, vem cá
-            </Button>
+            <div
+              className={`mt-[1rem] transition-[transform,opacity] duration-500 ease-out ${
+                open ? 'translate-y-0 opacity-100' : '-translate-y-[0.5rem] opacity-0'
+              }`}
+              style={{ transitionDelay: open ? `${100 + links.length * 50}ms` : '0ms' }}
+            >
+              <Button variant="secondary" href="#mae" onClick={() => setOpen(false)}>
+                Mãe, vem cá
+              </Button>
+            </div>
           </nav>
         </div>
-      )}
+      </div>
     </header>
   )
 }

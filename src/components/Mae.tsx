@@ -11,7 +11,7 @@ export default function Mae() {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
+      const mm = gsap.matchMedia(root.current!)
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.fromTo(
           '[data-tube]',

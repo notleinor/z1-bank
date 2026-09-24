@@ -28,7 +28,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <a
-      className={`inline-flex shrink-0 items-baseline whitespace-nowrap rounded-[0.25rem] px-[1.5rem] py-[1rem] font-medium leading-[1.4] transition-[background-color,color,box-shadow] duration-300 ease-out ${tight ? 'gap-[0.8125rem]' : 'gap-[1rem]'} ${variants[variant]} ${className}`}
+      className={`inline-flex shrink-0 select-none items-baseline whitespace-nowrap rounded-[0.25rem] px-[1.5rem] py-[1rem] font-medium leading-[1.4] transition-[background-color,color,box-shadow] duration-300 ease-out ${tight ? 'gap-[0.8125rem]' : 'gap-[1rem]'} ${variants[variant]} ${className}`}
       {...props}
     >
       {children}

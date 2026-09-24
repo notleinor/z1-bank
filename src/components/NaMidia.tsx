@@ -13,7 +13,7 @@ const news = [
   { logo: logoGlobo, w: 190.512, text: 'Z1, conta digital da geração Z que lidera no TikTok, levanta R$55 milhões' },
 ]
 
-function Cards({ scale, pad }: { scale: number; pad: string }) {
+function Cards({ scaleClass = '', pad }: { scaleClass?: string; pad: string }) {
   const wrap = useRef<HTMLDivElement>(null)
   const track = useRef<HTMLDivElement>(null)
 
@@ -42,8 +42,8 @@ function Cards({ scale, pad }: { scale: number; pad: string }) {
     <div ref={wrap} className="w-full overflow-hidden">
       <div
         ref={track}
-        className="u flex w-max select-none items-start gap-[32em]"
-        style={{ ['--s' as string]: scale, paddingLeft: pad, paddingRight: pad }}
+        className={`u flex w-max select-none items-start gap-[32em] ${scaleClass}`}
+        style={{ paddingLeft: pad, paddingRight: pad }}
       >
         {news.map((item) => (
           <article
@@ -83,7 +83,7 @@ export default function NaMidia() {
           </h2>
         </div>
         <div className="mt-[2.5rem]">
-          <Cards scale={1} pad="max(7rem, calc(50vw - 38rem))" />
+          <Cards pad="max(7rem, calc(50vw - 38rem))" />
         </div>
       </div>
 
@@ -92,7 +92,7 @@ export default function NaMidia() {
         <h2 data-reveal className="text-center text-[1.5rem] font-bold leading-[1.2] text-ink">
           Z1 na mídia
         </h2>
-        <Cards scale={245.136 / 384} pad="max(1.25rem, calc(50vw - 10.46875rem))" />
+        <Cards scaleClass="[--s:0.63837] tablet:[--s:0.8]" pad="max(1.25rem, calc(50vw - 10.46875rem))" />
       </div>
     </section>
   )

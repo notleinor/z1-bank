@@ -25,7 +25,7 @@ export default function StoreBadge({ store, variant = 'default', className = '' 
     <a
       href="#"
       aria-label={label}
-      className={`group relative block aspect-[180/55] shrink-0 ${className}`}
+      className={`group relative block aspect-[180/55] shrink-0 select-none ${className}`}
     >
       <img src={normal} alt="" className="absolute inset-0 size-full" />
       <img

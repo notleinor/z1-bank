@@ -63,35 +63,37 @@ export default function Footer() {
 
       {/* Mobile / tablet — 375 × 629 */}
       <div className="desktop:hidden">
-        <div className="relative mx-auto h-[39.3125rem] w-[23.4375rem]">
-          <img src={z1Logo} alt="Z1" className="absolute left-[1.125rem] top-[4.5rem] h-[2.0469rem] w-[2.625rem]" />
-          <div className="absolute left-[1.25rem] top-[10.3125rem] flex w-[20.875rem] flex-col items-start gap-[1.5rem]">
-            <div className="flex gap-[2.5rem]">
-              <div className="w-[8.5625rem]">
+        <div className="mx-auto w-[20.875rem] pt-[4.5rem] tablet:w-[36rem]">
+          <img src={z1Logo} alt="Z1" className="ml-[-0.125rem] h-[2.0469rem] w-[2.625rem]" />
+          <div className="mt-[3.7656rem] flex flex-col items-start gap-[1.5rem] tablet:flex-row tablet:flex-wrap tablet:justify-between tablet:gap-y-[2.5rem]">
+            <div className="flex gap-[2.5rem] tablet:contents">
+              <div className="w-[8.5625rem] tablet:w-auto">
                 <Column col={columns[0]} mobile />
               </div>
               <Column col={columns[1]} mobile />
             </div>
             <Column col={columns[2]} mobile />
-            <div className="flex flex-col items-start gap-[1.5rem]">
+            <div className="flex flex-col items-start gap-[1.5rem] tablet:w-full">
               <p className="text-[1rem] font-bold leading-[1.4] text-ink">Baixe o app</p>
-              <div className="flex gap-[0.4537rem]">
+              <div className="flex gap-[0.4537rem] tablet:gap-[1rem]">
                 <StoreBadge store="apple" variant="footer" className="w-[10.2106rem]" />
                 <StoreBadge store="google" variant="footer" className="w-[10.2106rem]" />
               </div>
             </div>
           </div>
-          <p className="absolute left-[1.3125rem] top-[32.9375rem] w-[20.875rem] text-center text-[0.75rem] leading-[1.4] text-neutral-600">
+        </div>
+        <div className="mt-[4.5rem] h-px w-full bg-neutral-100" />
+        <div className="mx-auto flex w-[20.875rem] flex-col items-center gap-[1rem] pb-[1.125rem] pt-[1.125rem] text-center text-[0.75rem] leading-[1.4] text-neutral-600 tablet:w-[36rem]">
+          <p>
             © 01 International, LLC
             <br />© 01 Pagamentos e Negócios, Ltda
             <br />
             35.810.871/0001-55
           </p>
-          <p className="absolute inset-x-0 top-[37.125rem] text-center text-[0.75rem] leading-[1.4] text-neutral-600">
+          <p>
             <Credit />
           </p>
         </div>
-        <div className="absolute inset-x-0 top-[31.7563rem] h-px bg-neutral-100" />
       </div>
     </footer>
   )

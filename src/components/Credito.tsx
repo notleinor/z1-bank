@@ -76,7 +76,7 @@ function MobileFeature({ f }: { f: Feature }) {
   return (
     <div data-reveal className="flex items-start gap-[1rem]">
       <Icon f={f} size="size-[2rem]" />
-      <p className="w-[17.4375rem] text-[0.875rem] leading-[1.4] text-neutral-700">{f.text}</p>
+      <p className="w-[17.4375rem] text-[0.875rem] leading-[1.4] text-neutral-700 tablet:w-[14rem]">{f.text}</p>
     </div>
   )
 }
@@ -123,7 +123,7 @@ export default function Credito() {
           <div className="flex flex-col items-start gap-[2.5rem]">
             <div className="flex flex-col items-center gap-[1.5rem]">
               <Title className="text-[1.5rem]" />
-              <div className="flex flex-col items-start gap-[2rem]">
+              <div className="flex flex-col items-start gap-[2rem] tablet:grid tablet:grid-cols-2 tablet:gap-x-[2rem]">
                 {main.map((f) => (
                   <MobileFeature key={f.text} f={f} />
                 ))}
@@ -133,7 +133,7 @@ export default function Credito() {
           </div>
           <div className="flex flex-col items-center gap-[1.5rem]">
             <p data-reveal className="text-[1.5rem] leading-[1.4] text-ink">E além disso:</p>
-            <div className="flex flex-col items-start gap-[2rem]">
+            <div className="flex flex-col items-start gap-[2rem] tablet:grid tablet:grid-cols-2 tablet:gap-x-[2rem]">
               {extra.map((f) => (
                 <MobileFeature key={f.text} f={f} />
               ))}
@@ -141,10 +141,8 @@ export default function Credito() {
           </div>
         </div>
         <Button icon="none" href="#app">Quero uma conta na Z1</Button>
-        <div className="w-full border-t border-neutral-100">
-          <div className="relative mx-auto h-[30.4375rem] w-[23.4375rem]">
-            <CreditoVisual scale={375 / 645.4} className="absolute left-0 top-0" />
-          </div>
+        <div className="flex w-full justify-center border-t border-neutral-100">
+          <CreditoVisual className="overflow-hidden [--s:0.58104] tablet:[--s:0.8]" />
         </div>
       </div>
     </section>

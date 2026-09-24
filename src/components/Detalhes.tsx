@@ -13,14 +13,24 @@ const checks = [
 
 function Checks({ mobile }: { mobile?: boolean }) {
   return (
-    <ul className={`flex flex-col gap-[1rem] ${mobile ? 'w-[19.7917rem]' : ''}`}>
+    <ul
+      className={
+        mobile
+          ? 'flex w-[19.7917rem] flex-col gap-[1rem] tablet:grid tablet:w-[36rem] tablet:grid-cols-2 tablet:gap-x-[2rem]'
+          : 'flex flex-col gap-[1rem]'
+      }
+    >
       {checks.map((item, i) => (
         <li
           key={item}
           data-reveal
           className={`flex items-center pb-[1rem] pt-[0.5rem] ${
             mobile ? 'gap-[0.5rem]' : 'gap-[1rem] whitespace-nowrap'
-          } ${mobile && i === checks.length - 1 ? '' : 'border-b-[0.05rem] border-neutral-100'}`}
+          } ${
+            mobile && i === checks.length - 1
+              ? 'tablet:border-b-[0.05rem] tablet:border-neutral-100'
+              : 'border-b-[0.05rem] border-neutral-100'
+          }`}
         >
           <img
             src={checkIcon}
@@ -53,13 +63,13 @@ export default function Detalhes() {
 
       {/* Mobile / tablet */}
       <div className="flex flex-col items-center desktop:hidden">
-        <div className="flex flex-col items-center gap-[2rem] px-[1.25rem] py-[2.5rem]">
+        <div className="flex flex-col items-center gap-[2rem] px-[1.25rem] py-[2.5rem] tablet:pb-[3rem]">
           <h2 data-reveal className="text-[1.5rem] font-bold leading-[1.2] text-ink">
             Sua conta na Z1
           </h2>
           <Checks mobile />
         </div>
-        <DetalhesAnim scale={335 / 591} />
+        <DetalhesAnim className="[--s:0.56684] tablet:[--s:0.8]" />
       </div>
     </section>
   )

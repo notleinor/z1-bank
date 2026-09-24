@@ -6,8 +6,8 @@ import starSmall from '../assets/icons/star-small.svg'
 import maquininha from '../assets/photos/crebito-maquininha.png'
 import cartao from '../assets/photos/crebito-cartao.png'
 
-// Grupo visual do Crébito em px do Figma (645 × 839); `scale` reduz para o mobile.
-export default function CreditoVisual({ scale = 1, className = '' }: { scale?: number; className?: string }) {
+// Grupo visual do Crébito em px do Figma (645 × 839), em em dentro de `.u` (escala via --s).
+export default function CreditoVisual({ className = '' }: { className?: string }) {
   const root = useRef<HTMLDivElement>(null)
 
   useGSAP(
@@ -16,12 +16,12 @@ export default function CreditoVisual({ scale = 1, className = '' }: { scale?: n
       const cardFit = { xPercent: 17.11, yPercent: 15.71, rotate: 8, scale: 0.9 }
       gsap.set('[data-hand="cartao"]', cardFit)
 
-      const mm = gsap.matchMedia()
+      const mm = gsap.matchMedia(root.current!)
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap
           .timeline({
             defaults: { ease: 'none' },
-            scrollTrigger: { trigger: root.current, start: 'top 90%', end: 'center 70%', scrub: 1 },
+            scrollTrigger: { trigger: root.current, start: 'top 55%', end: 'center 40%', scrub: 0.8 },
           })
           .from('[data-hand="maquininha"]', { yPercent: -32, rotate: -8, xPercent: -6 }, 0)
           .fromTo(
@@ -40,7 +40,6 @@ export default function CreditoVisual({ scale = 1, className = '' }: { scale?: n
     <div
       ref={root}
       className={`u relative h-[839em] w-[645.4em] ${className}`}
-      style={{ ['--s' as string]: scale }}
     >
       <div className="absolute left-[-22.88em] top-[220.23em] flex size-[548.087em] items-center justify-center">
         <div className="relative size-[478.351em] shrink-0" style={{ transform: 'rotate(9.11deg)' }}>

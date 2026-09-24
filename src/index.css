@@ -60,6 +60,22 @@ body {
   box-sizing: border-box;
 }
 
+/* Imagens e controles não são selecionáveis nem arrastáveis */
+img,
+svg,
+button {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* A máscara do SplitText corta descendentes (g, ç, ?) — estende a área visível sem mexer no layout */
+.split-mask {
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+
 /* Unidade de desenho: dentro de .u, 1em = 1px do Figma × --s */
 .u {
   font-size: calc(0.0625rem * var(--s, 1));

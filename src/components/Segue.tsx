@@ -15,35 +15,37 @@ const GAP = 32
 const SET = clips.reduce((sum, c) => sum + c.w + GAP, 0)
 const COPIES = 4
 
-function Marquee({ scale, className }: { scale: number; className: string }) {
+// Faixa em loop: 1em = 1px do Figma × --s. `left` alinha o primeiro card à margem do frame.
+function Marquee({ className, left }: { className: string; left: string }) {
   return (
-    <div
-      className={`u marquee flex w-max ${className}`}
-      style={{ ['--s' as string]: scale, ['--set' as string]: `${SET}em` }}
-    >
-      {Array.from({ length: COPIES }).flatMap((_, copy) =>
-        clips.map((clip, i) => (
-          <div
-            key={`${copy}-${i}`}
-            className="relative h-[707em] shrink-0"
-            style={{ width: `${clip.w}em`, marginRight: `${GAP}em` }}
-            aria-hidden={copy !== 1}
-          >
-            <img
-              src={clip.src}
-              alt=""
-              loading="lazy"
-              className="absolute left-0 h-[683em] w-full rounded-[16em] object-cover"
-              style={{ top: `${clip.top}em` }}
-            />
-          </div>
-        )),
-      )}
+    <div className={`u relative h-[707em] w-full ${className}`}>
+      <div
+        className="marquee absolute top-0 flex w-max"
+        style={{ left, ['--set' as string]: `${SET}em` }}
+      >
+        {Array.from({ length: COPIES }).flatMap((_, copy) =>
+          clips.map((clip, i) => (
+            <div
+              key={`${copy}-${i}`}
+              className="relative h-[707em] shrink-0"
+              style={{ width: `${clip.w}em`, marginRight: `${GAP}em` }}
+              aria-hidden={copy !== 1}
+            >
+              <img
+                src={clip.src}
+                alt=""
+                loading="lazy"
+                className="absolute left-0 h-[683em] w-full rounded-[16em] object-cover"
+                style={{ top: `${clip.top}em` }}
+              />
+            </div>
+          )),
+        )}
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 top-[222em] h-[485em] bg-gradient-to-b from-white/0 from-[30.48%] to-white to-[100.85%] opacity-80" />
     </div>
   )
 }
-
-const fade = 'pointer-events-none absolute inset-x-0 bg-gradient-to-b from-white/0 from-[30.48%] to-white to-[100.85%] opacity-80'
 
 export default function Segue() {
   return (
@@ -61,12 +63,7 @@ export default function Segue() {
             <SocialIcons gaps={[0.4131, 0.5791]} />
           </div>
         </div>
-        <div className="relative mt-[2.125rem] h-[44.1875rem]">
-          <div className="relative mx-auto h-full w-[90rem]">
-            <Marquee scale={1} className="absolute left-[7rem] top-0" />
-          </div>
-          <div className={`${fade} top-[13.875rem] h-[30.3125rem]`} />
-        </div>
+        <Marquee className="mt-[2.125rem]" left="calc(50% - 38rem)" />
       </div>
 
       {/* Mobile / tablet */}
@@ -80,12 +77,10 @@ export default function Segue() {
           </div>
           <SocialIcons gaps={[1.5, 1.5]} />
         </div>
-        <div className="relative h-[32.375rem]">
-          <div className="relative mx-auto h-full w-[23.4375rem]">
-            <Marquee scale={246.127 / 384.19} className="absolute left-[1.25rem] top-[2.2175rem]" />
-          </div>
-          <div className={`${fade} top-[11.1063rem] h-[19.4195rem]`} />
-        </div>
+        <Marquee
+          className="mb-[1.85rem] mt-[2.2175rem] [--s:0.64064] tablet:[--s:0.8]"
+          left="max(1.25rem, calc(50% - 10.46875rem))"
+        />
       </div>
     </section>
   )

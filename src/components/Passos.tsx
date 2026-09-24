@@ -42,12 +42,16 @@ export default function Passos() {
       className="flex flex-col items-center gap-[4.5rem] bg-white px-[1.25rem] py-[2.5rem] desktop:py-[7.5rem]"
     >
       <h2 data-reveal className="text-center text-[1.5rem] font-bold leading-[1.2] text-ink desktop:text-[2.5rem]">
-        Passo a passo <br className="desktop:hidden" />
+        Passo a passo <br className="tablet:hidden" />
         pra você virar Z1
       </h2>
-      <div className="flex flex-col items-center gap-[3.5rem] desktop:w-[76rem] desktop:flex-row desktop:justify-between desktop:gap-0">
-        {steps.map((step) => (
-          <div key={step.title} data-reveal className="flex flex-col items-center gap-[1rem]">
+      <div className="flex flex-col items-center gap-[3.5rem] tablet:grid tablet:w-[36rem] tablet:grid-cols-2 tablet:justify-items-center tablet:gap-x-[2rem] desktop:flex desktop:w-[76rem] desktop:flex-row desktop:justify-between desktop:gap-0">
+        {steps.map((step, i) => (
+          <div
+            key={step.title}
+            data-reveal
+            className={`flex flex-col items-center gap-[1rem] ${i === 2 ? 'tablet:col-span-2' : ''}`}
+          >
             <div className="relative size-[2.5rem] shrink-0">
               <div
                 className="absolute top-[-0.6875rem] size-[3.875rem] rounded-[0.25rem]"
